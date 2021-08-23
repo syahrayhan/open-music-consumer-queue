@@ -17,5 +17,6 @@ const init = async () => {
   })
 
   channel.consume('export:music', listener.listen, { noAck: true })
+  console.log(`Consumer berjalan pada ${process.env.RABBITMQ_SERVER}`)
 }
 init()
