@@ -5,14 +5,13 @@ class OpenMusicServices {
     this._pool = new Pool()
   }
 
-  async getPlaylist (userId) {
+  async getPlaylist (playlistId) {
     const query = {
-      text: `SELECT playlistsongs.song_id, music.title, music.performer
-      FROM playlistsongs
-      LEFT JOIN music ON playlistsongs.song_id = music.id
-      LEFT JOIN playlists ON playlistsongs.playlist_id = playlists.id
-      WHERE playlists.owner = $1`,
-      values: [userId]
+      text: `SELECT music.id, music.title, music.performer 
+             FROM playlistsongs
+             INNER JOIN music ON music.id = playlistsongs.song_id
+             WHERE playlistsongs.playlist_id = $1`,
+      values: [playlistId]
     }
 
     const result = await this._pool.query(query)
